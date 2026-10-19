@@ -1,0 +1,17 @@
+{
+  "info": { "name": "iPhone Sales Tracker API", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8800" },
+    { "key": "saleId", "value": "replace-with-a-sale-id" }
+  ],
+  "item": [
+    { "name": "Health check", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+    { "name": "Create sale", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"customer_name\": \"Aarav Sharma\",\n  \"phone_model\": \"iPhone 15\",\n  \"color\": \"Blue\",\n  \"storage_gb\": 128,\n  \"price\": 79999,\n  \"sale_date\": \"2026-10-19\",\n  \"store_location\": \"Mumbai Central\"\n}" }, "url": "{{baseUrl}}/sales" }, "event": [{ "listen": "test", "script": { "exec": ["const sale = pm.response.json();", "if (sale._id) pm.collectionVariables.set('saleId', sale._id);"] } }] },
+    { "name": "Get all sales", "request": { "method": "GET", "url": "{{baseUrl}}/sales" } },
+    { "name": "Filter sales by model", "request": { "method": "GET", "url": "{{baseUrl}}/sales?phone_model=iPhone%2015" } },
+    { "name": "Get sale by ID", "request": { "method": "GET", "url": "{{baseUrl}}/sales/{{saleId}}" } },
+    { "name": "Update sale", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"price\": 77999,\n  \"color\": \"Black\"\n}" }, "url": "{{baseUrl}}/sales/{{saleId}}" } },
+    { "name": "Delete sale", "request": { "method": "DELETE", "url": "{{baseUrl}}/sales/{{saleId}}" } },
+    { "name": "Sales statistics", "request": { "method": "GET", "url": "{{baseUrl}}/sales/stats" } }
+  ]
+}
